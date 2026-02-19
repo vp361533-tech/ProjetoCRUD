@@ -1,15 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def home_page():
-    return '<h1>Hello, World!</h1>'
-
-@app.route('/about')
-def about_page():
-    a = 10
-    return f'<h1>Sombre {a}</h1>'
+    return render_template("_base.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
