@@ -1,5 +1,4 @@
-{# templates\_base.html #}
-
+{# templates/_base.html #}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -7,15 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css">
     <!-- Usando a fonte "Roboto" do Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/static/img/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/stlyle.css">
     <title>{{ app_title }}{% if page_title %} :: {{ page_title }}{% endif %}</title>
 </head>
 
@@ -26,7 +23,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <h1 class="h5 m-0">Boot<i class="bi bi-bootstrap-fill text-warning px-1"></i>Pad</h1>
+                <h1 class="h5 m-0">{{ app_name | safe }}</h1>
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -51,10 +48,8 @@
 
                     <ul class="navbar-nav order-1 order-md-2">
                         <li class="nav-item m-0 p-0 ps-4 ps-md-0">
-                            <a class="nav-link d-flex align-items-center m-0 p-0" href="/login" id="userInOutLink"
-                                title="Login pelo Google">
-                                <img src="/static/img/user.png" alt="Logue-se com o Google"
-                                    class="rounded-circle avatar-sm">
+                            <a class="nav-link d-flex align-items-center m-0 p-0" href="/login" id="userInOutLink" title="Login pelo Google">
+                                <img src="/static/img/user.png" alt="Logue-se com o Google" class="rounded-circle avatar-sm">
                                 <span class="d-md-none ms-3">Login</span>
                             </a>
                         </li>
@@ -68,17 +63,16 @@
 
         {# Mensagens flash formatadas no Bootstrap 5 #}
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
 
-        {# O conteúdo das páginas serão "renderizados" aqui ↓ #}
         {% block content %}{% endblock %}
 
     </main>
@@ -90,14 +84,10 @@
             <nav>
                 <h5>Redes Sociais</h5>
                 <ul class="list-unstyled lh-base ps-3">
-                    <li><a href="https://facebook.com" target="_blank"><i class="bi bi-facebook me-2"></i> Facebook</a>
-                    </li>
-                    <li><a href="https://instagram.com" target="_blank"><i class="bi bi-instagram me-2"></i>
-                            Instagram</a></li>
-                    <li><a href="https://youtube.com" target="_blank"><i class="bi bi-youtube me-2"></i> Youtube</a>
-                    </li>
-                    <li><a href="https://github.com/Luferat" target="_blank"><i class="bi bi-github me-2"></i>
-                            GitHub</a></li>
+                    <li><a href="https://facebook.com" target="_blank"><i class="bi bi-facebook me-2"></i> Facebook</a></li>
+                    <li><a href="https://instagram.com" target="_blank"><i class="bi bi-instagram me-2"></i> Instagram</a></li>
+                    <li><a href="https://youtube.com" target="_blank"><i class="bi bi-youtube me-2"></i> Youtube</a></li>
+                    <li><a href="https://github.com/Luferat" target="_blank"><i class="bi bi-github me-2"></i> GitHub</a></li>
                 </ul>
             </nav>
 
@@ -106,8 +96,7 @@
                 <ul class="list-unstyled lh-base ps-3">
                     <li><a href="javascript:void(0)"><i class="bi bi-telephone-fill"></i> (21) 3456-7890</a></li>
                     <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i> (21) 9988-77665</a></li>
-                    <li><a href="javascript:void(0)"><i class="bi bi-envelope-at-fill"></i> support@springpad.com</a>
-                    </li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-envelope-at-fill"></i> support@springpad.com</a></li>
                     <li><a href="javascript:void(0)"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
                 </ul>
             </nav>
@@ -135,8 +124,7 @@
     <!-- Popup de autorização de cookies -->
     <div class="d-none fixed-bottom bg-warning p-3 shadow text-center" id="acceptCookies">
         <div class="container">
-            Este site usa cookies seguros e outros recursos de armazenamento local (do lado do usuário) para melhorar a
-            experiência do usuário.
+            Este site usa cookies seguros e outros recursos de armazenamento local (do lado do usuário) para melhorar a experiência do usuário.
             <a href="/privacy">Clique aqui</a> para saber mais.
             Você permite que o site armazene algumas informações sobre você em cookies?
         </div>
