@@ -6,11 +6,11 @@
 from flask import Blueprint, render_template
 
 # ↓                   ↓
-home_bp = Blueprint("modelbp", __name__)
+modelbp_bp = Blueprint("modelbp", __name__)
 
 #  ↓               ↓
-@home_bp.route("/modelbp")
-def home_page(): # ←
+@modelbp_bp.route("/modelbp")
+def modelbp_page(): # ←
     # Lógica da modelbp entra aqui
 
     #                        ↓
