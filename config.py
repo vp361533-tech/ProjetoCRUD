@@ -14,7 +14,11 @@ APP = {
 }
 
 # Configurações do banco de dados
-DB = {}
+DB = {
+    'name': 'database.db',
+}
 
 # Configurações dos cookies
-COOKIE = {}
+COOKIE = {
+    'livedays' : 30,
+}
