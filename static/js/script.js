@@ -1,4 +1,5 @@
 /**
+ * static\js\script.js
  * JavaScript do layout.
  * Template com autenticação de usuário pelo Google.
  * Referências desta página: https://firebase.google.com/docs/build?hl=pt-br
@@ -9,8 +10,9 @@
  *  - Se vazio (''), faz logout do usuário
  *  - Se tem uma URL (Ex.: '/profile'), acessa
  */
-const loggedUserAction = '';
 // const loggedUserAction = '/profile';
+const loggedUserAction = '/owner/profile';
+
 
 /**
  * Configuração: ID do elemento que contém o avatar do usuário.
@@ -30,7 +32,7 @@ const userClickId = 'userInOutLink';
  */
 // const apiLoginEndpoint = 'firebase';
 // const apiLoginEndpoint = '/owner/login'; // Exemplo
-const apiLoginEndpoint = '';
+const apiLoginEndpoint = '/owner/login';
 
 /** 
  * Configuração: rota de logout
@@ -42,7 +44,7 @@ const apiLoginEndpoint = '';
  * - Se vazio (""), não envia os dados para a API/backend;
  */
 // const apiLogoutEndpoint = '/user/logout'; // Exemplo
-const apiLogoutEndpoint = '';
+const apiLogoutEndpoint = '/owner/logout';
 
 /**
  * Configuração: URL / rota da página inicial do aplicativo
@@ -51,7 +53,7 @@ const apiLogoutEndpoint = '';
  */
 // const redirectOnLogout = 'index.html'
 // const redirectOnLogout = '/'
-const redirectOnLogout = ''
+const redirectOnLogout = '/';
 
 /**
  * Configuração: mostra logs das ações no console

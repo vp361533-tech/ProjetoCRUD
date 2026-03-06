@@ -1,0 +1,34 @@
+{# templates/profile.html #}
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h2>Perfil de {{ userdata.own_display_name }}</h2>
+
+<div class="card profile-card mt-4 mb-2">
+    <img class="card-img-top" src="{{ userdata.own_photo_url }}" alt="{{ userdata.own_display_name }}" referrerpolicy="no-referrer">
+    <div class="card-body">
+        <h4 class="card-title">{{ userdata.own_display_name }}</h4>
+        <div class="card-text">
+            <small class="text-muted">{{ userdata.own_email }}</small></p>
+            <ul>
+                <li>Cadastrado em {{ userdata.own_created_at | datetime_br }}</li>
+                <li>Último login em {{ userdata.own_last_login_at | datetime_br }}</li>
+            </ul>
+            <p><a href="https://myaccount.google.com/" target="_blank" class="btn btn-primary w-100">Ver perfil no Google</a></p>
+            <a href="javascript:void(0)" class="btn btn-warning w-100" id="btnLogout">Sair / Logout</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btnLogout').addEventListener('click', (event) => {
+            event.preventDefault();
+            const logoutModal = new bootstrap.Modal(
+                document.getElementById('logoutModal')
+            );
+            logoutModal.show();
+        });
+    </script>
+
+    {% endblock %}

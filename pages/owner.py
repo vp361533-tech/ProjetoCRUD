@@ -1,8 +1,9 @@
 # pages\owner.py
 
 import sqlite3
-from flask import Blueprint, make_response, redirect, request, jsonify, url_for
+from flask import Blueprint, g, make_response, redirect, render_template, request, jsonify, url_for
 from config import COOKIE, DB
+from utils.auth import login_required
 
 owner_bp = Blueprint('owner', __name__, url_prefix='/owner')
 
@@ -11,7 +12,7 @@ def owner_login():
 
     # Recebe os dados do usuário, vindos do front-end, em JSON
     data = request.json
-    print('\n\n\n', data, '\n\n\n')  # Debug - Exibe o JSON que vem do front-end
+    # print('\n\n\n', data, '\n\n\n')  # Debug - Exibe o JSON que vem do front-end
 
     # Validação básica dos dados recebidos (ajuste conforme necessário)
     if not data or 'uid' not in data or 'email' not in data or 'createdAt' not in data or 'lastLoginAt' not in data:
@@ -111,3 +112,16 @@ def owner_logout():
         samesite='Strict'
     )
     return response
+
+@owner_bp.route('/profile')
+@login_required
+def owner_profile():
+
+    userdata = g.current_user
+    page_title = f"Perfil de {userdata['own_display_name']}"
+
+    return render_template(
+        "profile.html",
+        page_title=page_title,
+        userdata=userdata
+    )

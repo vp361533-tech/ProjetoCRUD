@@ -11,6 +11,7 @@ from pages.login import login_bp
 from pages.newpad import newpad_bp
 from pages.search import search_bp
 from pages.owner import owner_bp
+from utils.filters import format_datetime_br
 
 # Cria o objeto do Fask
 app = Flask(__name__)
@@ -19,6 +20,9 @@ app = Flask(__name__)
 # Quando o aplicativo iniciar cria o banco de dados e as tabelas,
 # mas somente se as estruturas não existem
 init_db()
+
+# Formata datas usando o filtro em utils.filter
+app.jinja_env.filters["datetime_br"] = format_datetime_br
 
 
 @app.context_processor
