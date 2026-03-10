@@ -4,12 +4,51 @@
 
 {% block content %}
 
-<h2>Página Inicial</h2>
-<p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-    Quasi odio voluptate, sunt architecto labore ipsum sapiente quidem et soluta beatae 
-    repellendus quam iure nemo ab dicta at accusantium sint?
-    Deleniti.
-</p>
+<h2 class="mb-0">Todos os Pads</h2>
+
+{% if all_pads %}
+<small class="d-block mb-4 text-end bg-light p-1 text-muted"><em>Ordenados pela data mais recente.</em></small>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for pad in all_pads %}
+    <div class="col">
+        <div class="card h-100 shadow-sm hover-shadow transition">
+            <div class="card-header bg-light">
+                {% if pad.pad_is_markdown == 'True' %}
+                <span class="pe-1" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Markdown"><i class="bi bi-markdown-fill"></i></span>
+                {% else %}
+                <span class="pe-1" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Texto Plano"><i class="bi bi-file-text-fill"></i></span>
+                {% endif %}
+                <a href="/view/{{ pad.pad_id }}" class="text-decoration-none fw-bold" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="{{ pad.pad_title }}">
+                    {{ pad.pad_title | truncate(length=25, killwords=False) }}
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <p class="card-text text-muted flex-grow-1">
+                    {{ pad.pad_content_preview | truncate(120) }}
+                </p>
+            </div>
+            <div class="card-footer bg-light border-0">
+                <small class="text-muted d-flex align-items-center gap-2">
+                    <img src="{{ pad.own_photo_url }}" alt="{{ pad.own_display_name }}" class="rounded-circle" width="28" height="28" referrerpolicy="no-referrer">
+                    <span>
+                        Por
+                        {# <a href="/owner/{{pad.pad_owner}}" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Ver detalhes de {{ pad.own_display_name }}."> #}
+                        <strong>{{ pad.own_display_name }}</strong>
+                        {# </a> #}
+                        <br>Em <em>{{ pad.pad_created_at | datetime_br }}</em>
+                    </span>
+                </small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5 d-table mx-auto">
+    <p class="lead text-muted">Nenhum pad criado ainda.</p>
+    <a href="/newpad" class="btn btn-primary is-logged d-none">Criar o primeiro Pad</a>
+    <p class="not-is-logged d-block mt-3">Faça login para criar seu primeiro pad!</p>
+</div>
+{% endif %}
 
 {% endblock %}
