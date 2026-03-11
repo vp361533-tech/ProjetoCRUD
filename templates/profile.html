@@ -17,18 +17,12 @@
                 <li>Último login em {{ userdata.own_last_login_at | datetime_br }}</li>
             </ul>
             <p><a href="https://myaccount.google.com/" target="_blank" class="btn btn-primary w-100">Ver perfil no Google</a></p>
-            <a href="javascript:void(0)" class="btn btn-warning w-100" id="btnLogout">Sair / Logout</a>
+            <a href="#" class="btn btn-warning w-100" data-confirm data-confirm-title="Confirmação de Logout" data-confirm-message="Tem certeza que deseja sair do aplicativo?" data-confirm-action="googleLogout" data-confirm-btn-class="btn-danger">
+                Sair / Logout
+            </a>
         </div>
     </div>
+</div>
 
-    <script>
-        document.getElementById('btnLogout').addEventListener('click', (event) => {
-            event.preventDefault();
-            const logoutModal = new bootstrap.Modal(
-                document.getElementById('logoutModal')
-            );
-            logoutModal.show();
-        });
-    </script>
 
-    {% endblock %}
+{% endblock %}

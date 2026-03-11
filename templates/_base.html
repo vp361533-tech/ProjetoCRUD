@@ -7,12 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css">
-    <!-- Usando a fonte "Roboto" do Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/static/img/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/static/css/stlyle.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>{{ app_title }}{% if page_title %} :: {{ page_title }}{% endif %}</title>
 </head>
 
@@ -59,7 +58,7 @@
         </div>
     </nav>
 
-    <main class="container mt-5 p-4 bg-white flex-grow-1">
+    <main class="container mt-5 p-4 bg-white d-flex flex-column flex-grow-1">
 
         {# Mensagens flash formatadas no Bootstrap 5 #}
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -121,7 +120,7 @@
 
     </footer>
 
-    <!-- Popup de autorização de cookies -->
+    {# Popup de autorização de cookies #}
     <div class="d-none fixed-bottom bg-warning p-3 shadow text-center" id="acceptCookies">
         <div class="container">
             Este site usa cookies seguros e outros recursos de armazenamento local (do lado do usuário) para melhorar a experiência do usuário.
@@ -132,18 +131,18 @@
         <button id="rejectCookiesBtn" class="btn btn-secondary btn-sm mt-2">Rejeito!</button>
     </div>
 
-    <!-- Modal de Confirmação de Logout -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    {# Modal de Confirmação #}
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirmação de Logout</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">Tem certeza que deseja sair do aplicativo?</div>
+                <div class="modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                    <button type="button" class="btn btn-primary" id="confirmLogoutBtn">Sim</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmModalBtn">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -152,11 +151,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-auth-compat.js"></script>
-    <!-- Mantenha essa linha abaixo somente para persistência no Firebase Firestore -->
-    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
-    <!-- A configuração do Firebase deve ser "injetada" neste arquivo -->
+
+    {# A configuração do Firebase deve ser "injetada" neste arquivo #}
     <script src="/static/js/firebaseConfig.js"></script>
-    <!-- Existem outras configurações neste arquivo -->
     <script src="/static/js/script.js"></script>
 </body>
 

@@ -35,9 +35,15 @@ def login_required(view_function):
         if not user:
             return redirect(url_for("home.home_page"))
 
-        # salva usuário globalmente na request
         g.current_user = user
 
         return view_function(*args, **kwargs)
 
     return decorated_function
+
+
+def get_user_is_admin(uid):
+    user = get_user_by_uid(uid)
+    if not user:
+        return False
+    return user['own_is_admin'].strip().lower() == 'true'

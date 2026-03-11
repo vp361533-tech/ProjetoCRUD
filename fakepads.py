@@ -36,6 +36,8 @@ def seed_pads():
         ('Histórias Engraçadas de Viagem', 'Uma vez, confundi o trem e acabei em outra cidade. Lição: leia as placas!', '2025-11-04 15:10:00', 'ON'),
         ('Como Fazer Exercícios em Casa', 'Flexões, abdominais e corrida no lugar. Sem academia necessária!', '2025-11-03 17:40:00', 'ON'),
         ('Receita de Cookies Perfeitos', 'Manteiga, açúcar, farinha e gotas de chocolate. Asse até dourar. Irresistíveis!', '2025-11-02 12:00:00', 'ON'),
+        ( 'A importância da leitura','Ler é uma das melhores formas de aprender coisas novas',' 2025-11-03','ON')
+        ()
     ]
 
     for title, content, created_at, status in pads:

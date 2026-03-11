@@ -12,6 +12,7 @@ from pages.newpad import newpad_bp
 from pages.search import search_bp
 from pages.owner import owner_bp
 from utils.filters import format_datetime_br
+from pages.view import view_bp
 
 # Cria o objeto do Fask
 app = Flask(__name__)
@@ -40,6 +41,7 @@ app.register_blueprint(login_bp)
 app.register_blueprint(newpad_bp)
 app.register_blueprint(search_bp)
 app.register_blueprint(owner_bp)
+app.register_blueprint(view_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
