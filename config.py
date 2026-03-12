@@ -10,7 +10,7 @@ APP = {
 
     # Chave secreta (48 caracteres)
     # Obtenha essa chave rodando `python keygen.py`
-    'secret_key': 'd8dc961a0c41dec400561ba76081534125ae5ab38838a8b7d7d2ed39f6deaac92aa85ed6edee95fbe2ddd5a723dd44c5',
+    'secret_key': 'db90279b4cdd584af0742deff388fad5345e43ed22d6b62976c203446c215dba78c2e9a8bd1196a709236f84f1df8248',
 }
 
 # Configurações do banco de dados
@@ -20,5 +20,5 @@ DB = {
 
 # Configurações dos cookies
 COOKIE = {
-    'livedays' : 30,
+    'livedays': 30,
 }

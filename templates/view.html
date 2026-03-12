@@ -7,7 +7,7 @@
 
     {% if pad_html %}
     <small class="text-muted mb-2">{{ pad.pad_title }}</small>
-    <div class="border-bottom border-4 border-secondary pb-3">{{ pad_html | safe }}</div>
+    <div class="border-bottom border-4 flex-grow-1 border-secondary pb-3">{{ pad_html | safe }}</div>
     {% else %}
     <h2>{{ pad.pad_title }}</h2>
     <textarea class="form-control flex-grow-1 font-monospace" readonly>{{ pad.pad_content }}</textarea>
