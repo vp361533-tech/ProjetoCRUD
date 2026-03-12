@@ -54,6 +54,14 @@ const redirectOnLogout = '/'
  */
 const showLogs = true;
 
+/**
+ * Configuração: tempo em segundos para manter uma caixa de alerta "flash"
+ * Após esse tempo, caso o usuário não feche a caixa de alerta, ela é fechada
+ * automaticamente.
+ *  - Se 0, ela nunca fecha automaticamente.
+ */
+const dimissFlashAlert = 5;
+
 /**************************************************************************
  * Não altere nada à partir daqui a não ser que saiba o que está fazendo! *
  **************************************************************************/
@@ -390,3 +398,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+// Fecha as caixas de alerta "flash" automaticamente
+document.addEventListener("DOMContentLoaded", () => {
+    if (dimissFlashAlert > 0) {
+        const alertElements = document.querySelectorAll(".alert")
+        alertElements.forEach((element) => {
+            setTimeout(() => {
+                const alertInstance = bootstrap.Alert.getOrCreateInstance(element)
+                alertInstance.close()
+            }, dimissFlashAlert * 1000)
+        })
+    }
+})
