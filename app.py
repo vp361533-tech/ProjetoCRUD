@@ -14,6 +14,7 @@ from pages.owner import owner_bp
 from utils.filters import format_datetime_br
 from pages.view import view_bp
 from pages.delete import delete_bp
+from pages.edit import edit_bp
 
 # Cria o objeto do Fask
 app = Flask(__name__)
@@ -47,6 +48,7 @@ app.register_blueprint(search_bp)
 app.register_blueprint(owner_bp)
 app.register_blueprint(view_bp)
 app.register_blueprint(delete_bp)
+app.register_blueprint(edit_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
