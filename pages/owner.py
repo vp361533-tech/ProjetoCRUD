@@ -1,4 +1,4 @@
-# pages\owner.py
+# pages/owner.py
 
 import sqlite3
 from flask import Blueprint, g, make_response, redirect, render_template, request, jsonify, url_for
@@ -11,48 +11,35 @@ owner_bp = Blueprint('owner', __name__, url_prefix='/owner')
 @owner_bp.route('/login', methods=['POST'])
 def owner_login():
 
-    # Recebe os dados do usuário, vindos do front-end, em JSON
     data = request.json
-    # Debug - Exibe o JSON que vem do front-end
-    # print('\n\n\n', data, '\n\n\n')
+    # print(data)  # Debug - Exibe o JSON que vem do front-end
 
-    # Validação básica dos dados recebidos (ajuste conforme necessário)
     if not data or 'uid' not in data or 'email' not in data or 'createdAt' not in data or 'lastLoginAt' not in data:
         return jsonify({'error': 'Dados incompletos ou inválidos'}), 400
 
-    # Conecta ao banco de dados
     conn = sqlite3.connect(DB['name'])
     cursor = conn.cursor()
 
-    # Verifica se o usuário já existe na tabela owners (baseado no UID do Firebase)
     cursor.execute(
-        'SELECT own_id FROM owners WHERE own_uid = ?',
-        (data['uid'],)
-    )
-    # True → usuário existe; False = usuário não existe
+        'SELECT own_id FROM owners WHERE own_uid = ?', (data['uid'],))
     existing_user = cursor.fetchone()
 
     if existing_user:
-        # Atualiza os dados existentes
-        # Para segurança da informação, usa "prepared statement"
         cursor.execute('''
             UPDATE owners SET
                 own_display_name = ?,
                 own_email = ?,
                 own_photo_url = ?,
-                own_created_at = ?,
                 own_last_login_at = ?
             WHERE own_uid = ?
         ''', (
             data.get('displayName'),
             data.get('email'),
             data.get('photoURL'),
-            data.get('createdAt'),
             data.get('lastLoginAt'),
             data.get('uid')
         ))
     else:
-        # Insere um novo usuário
         cursor.execute('''
             INSERT INTO owners (
                 own_uid, 
@@ -75,11 +62,9 @@ def owner_login():
     conn.commit()
     conn.close()
 
-    # Cria a resposta JSON
     response = make_response(
         jsonify({'message': 'Usuário persistido com sucesso'}), 200)
 
-    # Defina o tempo de vida do cookie em segundos
     max_age = 3600 * 24 * COOKIE['livedays']
 
     # Define o cookie seguro com o UID quando fizer login
@@ -127,11 +112,25 @@ def owner_logout():
 @login_required
 def owner_profile():
 
-    userdata = g.current_user
-    page_title = f"Perfil de {userdata['own_display_name']}"
+    userdata = dict(g.current_user)
+    page_title = f"Perfil de {userdata.get('own_display_name', 'Usuário')}"
+    user_uid = userdata.get('own_uid', None)
+
+    with sqlite3.connect(DB["name"]) as conn:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT pad_id, pad_title FROM pads WHERE pad_owner = ? AND pad_status = 'ON' ORDER BY pad_created_at DESC",
+            (user_uid,)
+        )
+
+        rows = cursor.fetchall()
+        all_pads = [dict(row) for row in rows]
 
     return render_template(
         "profile.html",
         page_title=page_title,
-        userdata=userdata
+        userdata=userdata,
+        all_pads=all_pads,
     )
