@@ -9,7 +9,7 @@ newpad_bp = Blueprint("newpad", __name__)
 
 
 @newpad_bp.route("/newpad", methods=["GET", "POST"])
-@login_required
+@login_required 
 def newpad_page():
 
     user_uid = g.current_user["own_uid"]

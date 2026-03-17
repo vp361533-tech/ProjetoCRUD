@@ -8,7 +8,7 @@
     
     {% if pad_html %}
     <small class="text-muted mb-2 d-block text-end"><i class="bi bi-markdown-fill"></i> Markdown</small>
-    <div class="border-bottom border-4 border-secondary pb-3">{{ pad_html | safe }}</div>
+    <div class="border-bottom border-4 border-secondary pb-3 flex-grow-1">{{ pad_html | safe }}</div>
     {% else %}
     <textarea class="form-control flex-grow-1 font-monospace" readonly>{{ pad.pad_content }}</textarea>
     {% endif %}
@@ -17,7 +17,8 @@
         <small class="text-muted d-flex align-items-center gap-2">
             <img src="{{ pad.own_photo_url }}" alt="{{ pad.own_display_name }}" class="rounded-circle" width="64" height="64" referrerpolicy="no-referrer">
             <span>
-                Por <strong><a href="/owner/{{ pad.own_uid }}">{{ pad.own_display_name }}</a></strong><br>
+                Por <strong>
+                    <a href="/owner/pads/{{pad.pad_owner}}" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Ver detalhes de {{ pad.own_display_name }}.">{{ pad.own_display_name }}</a></strong><br>
                 Em <em>{{ pad.pad_created_at | datetime_br }}</em><br>
                 {{ pad.pad_views }} visitas
             </span>
