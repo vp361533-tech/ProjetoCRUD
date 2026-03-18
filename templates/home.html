@@ -1,59 +1,177 @@
-{# templates/home.html #}
+{# templates/_base.html #}
+<!DOCTYPE html>
+<html lang="pt-br">
 
-{% extends "_base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="/static/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>{{ app_title }}{% if page_title %} :: {{ page_title }}{% endif %}</title>
+</head>
 
-{% block content %}
+<body class="bg-secondary d-flex flex-column min-vh-100">
 
-<h2 class="mb-0">Todos os Pads</h2>
+    <a id="top"></a>
 
-{% if all_pads %}
-<small class="d-block mb-4 text-end bg-light p-1 text-muted"><em>Ordenados pela data mais recente.</em></small>
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-    {% for pad in all_pads %}
-    <div class="col">
-        <div class="card h-100 shadow-sm hover-shadow transition">
-            <div class="card-header bg-light">
-                {% if pad.pad_is_markdown == 'True' %}
-                <span class="pe-1" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Markdown"><i
-                        class="bi bi-markdown-fill"></i></span>
-                {% else %}
-                <span class="pe-1" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Texto Plano"><i
-                        class="bi bi-file-text-fill"></i></span>
-                {% endif %}
-                <a href="/view/{{ pad.pad_id }}" class="text-decoration-none fw-bold" data-bs-toggle="popover"
-                    data-bs-trigger="hover" data-bs-content="{{ pad.pad_title }}">
-                    {{ pad.pad_title | truncate(length=25, killwords=False) }}
-                </a>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <h1 class="h5 m-0">{{ app_name | safe }}</h1>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+
+                <ul class="navbar-nav me-auto border-md-top-0 mt-3 mt-md-0 ps-4 ps-md-0">
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link active" href="/">Início</a> </li>
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link is-logged d-none" href="/newpad">Novo</a></li>
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link" href="/contacts">Contatos</a></li>
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link" href="/about">Sobre</a></li>
+                </ul>
+
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 mt-3 mt-md-0">
+
+                    <form class="order-2 order-md-1 w-100">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="Procurar...">
+                            <button class="btn btn-secondary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </form>
+
+                    <form class="order-2 order-md-1 w-100" name="searchform" method="get" action="/search">
+                        <div class="input-group">
+                            <input class="form-control" type="search" placeholder="Procurar Pad..." name="q" value="{{ query }}" required minlength="2">
+                            <button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+                        </div>
+                    </form>
+
+                    <ul class="navbar-nav order-1 order-md-2">
+                        <li class="nav-item m-0 p-0 ps-4 ps-md-0">
+                            <a class="nav-link d-flex align-items-center m-0 p-0" href="/login" id="userInOutLink"
+                                title="Login pelo Google">
+                                <img src="/static/img/user.png" alt="Logue-se com o Google"
+                                    class="rounded-circle avatar-sm">
+                                <span class="d-md-none ms-3">Login</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="card-body d-flex flex-column">
-                <p class="card-text text-muted flex-grow-1">
-                    {{ pad.pad_content_preview | truncate(120) }}
-                </p>
-            </div>
-            <div class="card-footer bg-light border-0">
-                <small class="text-muted d-flex align-items-center gap-2">
-                    <img src="{{ pad.own_photo_url }}" alt="{{ pad.own_display_name }}" class="rounded-circle"
-                        width="28" height="28" referrerpolicy="no-referrer">
-                    <span>
-                        Por
-                        <a href="/owner/pads/{{pad.pad_owner}}" data-bs-toggle="popover" data-bs-trigger="hover"
-                            data-bs-content="Ver detalhes de {{ pad.own_display_name }}.">
-                            <strong>{{ pad.own_display_name }}</strong>
-                        </a>
-                        <br>Em <em>{{ pad.pad_created_at | datetime_br }}</em>
-                    </span>
-                </small>
+        </div>
+    </nav>
+
+    <main class="container mt-5 p-4 bg-white d-flex flex-column flex-grow-1">
+
+        {# Mensagens flash formatadas no Bootstrap 5 #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+    <footer class="bg-dark text-light">
+
+        <div class="footer-nav container d-flex justify-content-around pt-3 border-bottom border-secondary">
+
+            <nav>
+                <h5>Redes Sociais</h5>
+                <ul class="list-unstyled lh-base ps-3">
+                    <li><a href="https://facebook.com" target="_blank"><i class="bi bi-facebook me-2"></i> Facebook</a>
+                    </li>
+                    <li><a href="https://instagram.com" target="_blank"><i class="bi bi-instagram me-2"></i>
+                            Instagram</a></li>
+                    <li><a href="https://youtube.com" target="_blank"><i class="bi bi-youtube me-2"></i> Youtube</a>
+                    </li>
+                    <li><a href="https://github.com/Luferat" target="_blank"><i class="bi bi-github me-2"></i>
+                            GitHub</a></li>
+                </ul>
+            </nav>
+
+            <nav class="d-none d-md-block">
+                <h5>Informações</h5>
+                <ul class="list-unstyled lh-base ps-3">
+                    <li><a href="javascript:void(0)"><i class="bi bi-telephone-fill"></i> (21) 3456-7890</a></li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i> (21) 9988-77665</a></li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-envelope-at-fill"></i> support@springpad.com</a>
+                    </li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
+                </ul>
+            </nav>
+
+            <nav>
+                <h5>Acesso Rápido</h5>
+                <ul class="list-unstyled lh-base ps-3">
+                    <li><a href="/search"><i class="bi bi-buildings-fill me-2"></i> Procurar</a></li>
+                    <li><a href="/privacy"><i class="bi bi-person-lock me-2"></i> Privacidade</a></li>
+                    <li><a href="/contacts"><i class="bi bi-chat-dots-fill me-2"></i> Contatos</a></li>
+                    <li><a href="/about"><i class="bi bi-person-vcard-fill me-2"></i> Sobre</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <div class="container d-flex justify-content-between align-items-center py-2">
+            <a href="/" title="Página inicial" class="fs-3"><i class="bi bi-house"></i></a>
+            <div class="text-center">&copy; 2025 Joca da Silva</div>
+            <a href="#top" title="Topo desta página" class="fs-3"><i class="bi bi-arrow-up-circle"></i></a>
+        </div>
+
+    </footer>
+
+    {# Popup de autorização de cookies #}
+    <div class="d-none fixed-bottom bg-warning p-3 shadow text-center" id="acceptCookies">
+        <div class="container">
+            Este site usa cookies seguros e outros recursos de armazenamento local (do lado do usuário) para melhorar a
+            experiência do usuário.
+            <a href="/privacy">Clique aqui</a> para saber mais.
+            Você permite que o site armazene algumas informações sobre você em cookies?
+        </div>
+        <button id="acceptCookiesBtn" class="btn btn-primary btn-sm mt-2 me-2">Aceito!</button>
+        <button id="rejectCookiesBtn" class="btn btn-secondary btn-sm mt-2">Rejeito!</button>
+    </div>
+
+    {# Modal de Confirmação #}
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmModalBtn">Confirmar</button>
+                </div>
             </div>
         </div>
     </div>
-    {% endfor %}
-</div>
-{% else %}
-<div class="text-center py-5 d-table mx-auto">
-    <p class="lead text-muted">Nenhum pad criado ainda.</p>
-    <a href="/newpad" class="btn btn-primary is-logged d-none">Criar o primeiro Pad</a>
-    <p class="not-is-logged d-block mt-3">Faça login para criar seu primeiro pad!</p>
-</div>
-{% endif %}
 
-{% endblock %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-auth-compat.js"></script>
+
+    {# A configuração do Firebase deve ser "injetada" neste arquivo #}
+    <script src="/static/js/firebaseConfig.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+
+</html>
