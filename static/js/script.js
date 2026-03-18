@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Fecha as caixas de alerta "flash" automaticamente
 document.addEventListener("DOMContentLoaded", () => {
     if (dimissFlashAlert > 0) {
-        const alertElements = document.querySelectorAll(".alert")
+        const alertElements = document.querySelectorAll(".alert:not([data-permanent])")
         alertElements.forEach((element) => {
             setTimeout(() => {
                 const alertInstance = bootstrap.Alert.getOrCreateInstance(element)

@@ -1,6 +1,9 @@
-# Exibe mensagens no terminal em momento de desenvolvimento
+# utils/_debug.py
 
-def _db(data):
-    print('\n-----------\n')
-    print(data)
-    print('\n-----------\n')
+def _debug(*data):
+    sep = '─' * 40
+    print(f'\n{sep}\n')
+    for item in data:
+        tipo = type(item).__name__
+        print(f'[{tipo}]\n{repr(item)}')
+        print(f'\n{sep}\n')
