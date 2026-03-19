@@ -1,0 +1,60 @@
+{# templates/profile.html #}
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h2>Perfil de {{ userdata.own_display_name }}</h2>
+
+<div class="d-flex flex-column flex-md-row">
+
+    <div class="card profile-card mt-4 mb-2">
+        <img class="card-img-top" src="{{ userdata.own_photo_url }}" alt="{{ userdata.own_display_name }}"
+            referrerpolicy="no-referrer">
+        <div class="card-body">
+            <h4 class="card-title">{{ userdata.own_display_name }}</h4>
+            <div class="card-text">
+                <small class="text-muted">{{ userdata.own_email }}</small></p>
+                <ul>
+                    <li>Cadastrado em {{ userdata.own_created_at | datetime_br }}</li>
+                    <li>Último login em {{ userdata.own_last_login_at | datetime_br }}</li>
+                </ul>
+                <p><a href="https://myaccount.google.com/" target="_blank" class="btn btn-primary w-100">Ver perfil no
+                        Google</a></p>
+                <a href="#" class="btn btn-warning w-100" data-confirm data-confirm-title="Confirmação de Logout"
+                    data-confirm-message="Tem certeza que deseja sair do aplicativo?" data-confirm-action="googleLogout"
+                    data-confirm-btn-class="btn-danger">
+                    Sair / Logout
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-light mt-4 p-4 ms-md-4">
+        <h3>Meus pads</h3>
+
+        {% if all_pads %}
+        <ul class="list-unstyled ps-3 mt-3">
+            {% for pad in all_pads %}
+            <li class="mb-3 text-nowrap">
+                {% if pad.pad_is_markdown == 'True' %}
+                <span class="pe-1" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Markdown"><i
+                        class="bi bi-markdown-fill"></i></span>
+                {% else %}
+                <span class="pe-1" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Texto Plano"><i
+                        class="bi bi-file-text-fill"></i></span>
+                {% endif %}
+                <a href="/view/{{ pad.pad_id }}">{{ pad.pad_title }}</a><br>
+                <small class="text-muted">Em {{ pad.pad_created_at | datetime_br }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+
+        {% endif %}
+    </div>
+
+</div>
+
+
+{% endblock %}

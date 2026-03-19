@@ -1,0 +1,28 @@
+{# templates/padform.html #}
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+<form method="post" action="{{ form.action }}" class="d-flex flex-column flex-grow-1">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <h3>{{ form.title }}</h3>
+        <div for="padmarkdown form-check form-switch">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="padmarkdown" name="padmarkdown" {% if form.markdown %} checked {% endif %}>
+                <label class="form-check-label" for="padmarkdown">Markdown</label>
+                <i class="bi bi-question-circle-fill" title="Markdown" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Marque essa opção se o conteúdo deste PAD é um documento no formato Markdown."></i>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" name="padtitle" value="{{ form.padtitle }}" required minlength="4" class="form-control" placeholder="Titulo do Pad">
+    <textarea name="padcontent" class="form-control flex-grow-1 font-monospace mt-2" required minlength="4" placeholder="Conteúdo do Pad">{{ form.padcontent }}</textarea>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-warning">Salvar</button>
+    </div>
+
+</form>
+
+{% endblock %}
