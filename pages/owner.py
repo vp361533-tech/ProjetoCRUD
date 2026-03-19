@@ -4,7 +4,7 @@ from utils.auth import login_required
 import sqlite3
 from flask import Blueprint, g, make_response, redirect, render_template, request, jsonify, url_for
 from config import COOKIE, DB
-from utils._debug import _debug
+from utils.debug import _debug
 from utils.auth import get_user_by_uid, login_required
 
 owner_bp = Blueprint('owner', __name__, url_prefix='/owner')
@@ -123,7 +123,7 @@ def owner_profile():
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT pad_id, pad_title FROM pads WHERE pad_owner = ? AND pad_status = 'ON' ORDER BY pad_created_at DESC",
+            "SELECT pad_id, pad_title, pad_is_markdown, pad_created_at FROM pads WHERE pad_owner = ? AND pad_status = 'ON' ORDER BY pad_created_at DESC",
             (user_uid,)
         )
 

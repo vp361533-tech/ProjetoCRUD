@@ -411,3 +411,23 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 })
+
+// Spinner para envio do formulário
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form[action='/contacts']")
+  if (!form) return
+  form.addEventListener("submit", () => {
+    const button = document.getElementById("submitBtn")
+    if (!button) return
+    button.disabled = true
+    button.querySelector(".btn-text").textContent = "Enviando..."
+    button.querySelector(".spinner-border").classList.remove("d-none")
+  })
+})
+
+// Bloqueia reenvio de formulário ao recarregar a página
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href)
+  }
+})

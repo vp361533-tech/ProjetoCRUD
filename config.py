@@ -22,3 +22,20 @@ DB = {
 COOKIE = {
     'livedays': 30,
 }
+
+# Configurações do e-mail
+MAIL = {
+    # Boolean: True envia e-mails, False não envia 
+    "send_contact": False,
+
+    # Servidor SMTP e porta do Gmail / provedor
+    "server": "smtp.gmail.com",
+    "port": 587,
+
+    # Conta de e-mail do administrador do site
+    "username": "vp361533@gmail",
+    "admin_email": "vp361533@gmail",
+    
+    # Acesse https://myaccount.google.com/apppasswords para gerar a senha de aplicativo abaixo
+    "password": "senha de aplicativo aqui",
+}
